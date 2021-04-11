@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: samba-pod
+  name: samba-pod
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: samba01
+    image: {{ samba.image.name }}
+    securityContext:
+      allowPrivilegeEscalation: false
+      privileged: false
+      capabilities:
+        add: []
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        type: spc_t
+    args:
+      - -p
+      - -u
+      - "{{ samba.smbuser.name }};{{ samba.smbuser.password }}"
+      - -s
+      - "{{ samba.storage.name }};{{ samba.storage.path }};{{ samba.storage.browse }};{{ samba.storage.readonly }};{{ samba.storage.guest }};{{ samba.storage.users }};{{ samba.storage.admins }};{{ samba.storage.writelist }};{{ samba.storage.comment }}"
+    resources:
+      requests:
+        memory: {{ samba.resources.requests.memory }}
+      limits:
+        memory: {{ samba.resources.limits.memory }}
+    ports:
+    - containerPort: {{ samba.port.requests.container }}
+      hostPort: {{ samba.port.requests.host }}
+      hostIP: {{ samba.port.requests.ip }}
+      protocol: tcp
+    - containerPort: {{ samba.port.node_communications.container }}
+      hostPort: {{ samba.port.node_communications.host }}
+      hostIP: {{ samba.port.node_communications.ip }}
+      protocol: tcp
+    volumeMounts:
+    - mountPath: /share
+      name: samba-share
+  volumes:
+  - name: samba-share
+    persistentVolumeClaim:
+      claimName: samba-share
