@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+
+samba:
+  lookup:
+    hostuser:
+      name: vagrant
+      group: vagrant
+    pod:
+      network:
+        subnet: 10.77.1.0/24
+        gateway: 10.77.1.1
+        domain_name: sambanet
+        bridge: cni-podman0
+    port:
+      requests:
+        container: 139
+        host: 139
+        ip: 0.0.0.0
+      node_communications:
+        container: 445
+        host: 445
+        ip: 0.0.0.0
+    smbuser:
+      name: smbadmin1
+      password: abcde12345
+    storage:
+      name: public
+      path: /share
+      browse: yes
+      readonly: no
+      guest: no
+      users: all
+      admins: smbadmin1
+      writelist: smbadmin1
+      comment: A public shared directory
+    resources:
+      requests:
+        memory: 200Mi
+      limits:
+        memory: 200Mi
