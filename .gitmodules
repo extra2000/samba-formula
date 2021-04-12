@@ -1,0 +1,3 @@
+[submodule "samba/files/samba"]
+	path = samba/files/samba
+	url = https://github.com/extra2000/samba.git
