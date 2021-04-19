@@ -13,11 +13,11 @@ samba:
         domain_name: sambanet
         bridge: cni-podman0
     port:
-      requests:
+      netbios:
         container: 139
         host: 139
         ip: 0.0.0.0
-      node_communications:
+      cifs:
         container: 445
         host: 445
         ip: 0.0.0.0

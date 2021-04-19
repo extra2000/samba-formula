@@ -32,13 +32,13 @@ spec:
       limits:
         memory: {{ samba.resources.limits.memory }}
     ports:
-    - containerPort: {{ samba.port.requests.container }}
-      hostPort: {{ samba.port.requests.host }}
-      hostIP: {{ samba.port.requests.ip }}
+    - containerPort: {{ samba.port.netbios.container }}
+      hostPort: {{ samba.port.netbios.host }}
+      hostIP: {{ samba.port.netbios.ip }}
       protocol: tcp
-    - containerPort: {{ samba.port.node_communications.container }}
-      hostPort: {{ samba.port.node_communications.host }}
-      hostIP: {{ samba.port.node_communications.ip }}
+    - containerPort: {{ samba.port.cifs.container }}
+      hostPort: {{ samba.port.cifs.host }}
+      hostIP: {{ samba.port.cifs.ip }}
       protocol: tcp
     volumeMounts:
     - mountPath: /share
